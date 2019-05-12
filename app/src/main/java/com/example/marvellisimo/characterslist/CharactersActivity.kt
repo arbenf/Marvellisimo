@@ -1,6 +1,7 @@
 package com.example.marvellisimo.characterslist
 
 import android.arch.lifecycle.ViewModelProviders
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Parcelable
@@ -29,6 +30,7 @@ class CharactersActivity : AppCompatActivity() {
         setContentView(R.layout.activity_characters)
 
         val llm = LinearLayoutManager(this)
+        recyclerCharacters.setBackgroundColor(Color.GRAY)
         recyclerCharacters.layoutManager = llm
         recyclerCharacters.adapter = adapter
         subscribeToList()

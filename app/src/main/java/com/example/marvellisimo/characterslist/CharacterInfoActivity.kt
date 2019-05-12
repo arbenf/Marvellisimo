@@ -51,25 +51,35 @@ class CharacterInfoActivity : AppCompatActivity() {
 
         val charDescription = intent.getStringExtra(CharactersAdapter.VH.CHARACTER_DESCRIPTION)
         charInfotextView?.text = charDescription
-       // subscribeToList()
+        //subscribeToList()
     }
 
-    private fun subscribeToList() {
-        val disposable = viewModel.characterList
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { list ->
-                    adapter.submitList(list)
-                    if (recyclerState != null) {
-                        recyclerCharacters.layoutManager?.onRestoreInstanceState(recyclerState)
-                        recyclerState = null
-                    }
-                },
-                { e ->
-                    Log.e("NGVL", "Error", e)
-                }
-            )
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putParcelable("lmState", recyclerCharacters.layoutManager?.onSaveInstanceState())
     }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        recyclerState = savedInstanceState?.getParcelable("lmState")
+    }
+
+//    private fun subscribeToList() {
+//        val disposable = viewModel.characterList
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(
+//                { list ->
+//                    adapter.submitList(list)
+//                    if (recyclerState != null) {
+//                        recyclerCharacters.layoutManager?.onRestoreInstanceState(recyclerState)
+//                        recyclerState = null
+//                    }
+//                },
+//                { e ->
+//                    Log.e("NGVL", "Error", e)
+//                }
+//            )
+//    }
 
     private class CharacterInfoActivityAdapter :
         PagedListAdapter<Character, CharacterInfoActivityAdapter.VH>(characterDiff) {
@@ -89,8 +99,8 @@ class CharacterInfoActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: VH, position: Int) {
 //            val character = getItem(position)
-//            holder.itemView.charInfotextView.text = character?.name
-//            holder.itemView.charInfoimageView.load("${character?.thumbnail?.path}/standard_medium.${character?.thumbnail?.extension}")
+//            holder.itemView.charInfotextView.text = character?.description
+            //holder.itemView.charInfoimageView.load("${character?.thumbnail?.path}/standard_medium.${character?.thumbnail?.extension}")
         }
 
         class VH(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -21,7 +21,9 @@ class CharactersAdapter : PagedListAdapter<Character, CharactersAdapter.VH>(char
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
+
         val character = getItem(position)
+
         holder.itemView.txtName.text = character?.name
         holder.itemView.imgThumbnail.load("${character?.thumbnail?.path}/standard_medium.${character?.thumbnail?.extension}")
 
@@ -42,7 +44,7 @@ class CharactersAdapter : PagedListAdapter<Character, CharactersAdapter.VH>(char
                 val intent = Intent(itemView.context, CharacterInfoActivity::class.java)
 
                 intent.putExtra(CHARACTER_NAME, character?.name)
-                intent.putExtra(CHARACTER_DESCRIPTION, character?.description)
+                intent.putExtra(CHARACTER_DESCRIPTION,  character?.description)
 
                 itemView.context.startActivity(intent)
             }
